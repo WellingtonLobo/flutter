@@ -1,5 +1,6 @@
 import 'package:app001/home/model/transaction_day_value.dart';
 import 'package:app001/home/model/transaction_model.dart';
+import 'package:app001/home/shared/local_files_read_and_write.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 
@@ -8,6 +9,8 @@ part 'home_page_mobx.g.dart';
 class HomePageMobx = _HomePageMobx with _$HomePageMobx;
 
 abstract class _HomePageMobx with Store {
+  LocalFilesReadAndWrite localStorage = LocalFilesReadAndWrite();
+
   @observable
   bool isLoading = false;
 
@@ -33,6 +36,7 @@ abstract class _HomePageMobx with Store {
   int? indexDeleteTransaction;
 
   Future<void> getData() async {
+    transactionList = await localStorage.readFile();
     isLoading = true;
     if (transactionList.isNotEmpty) {
       hasData = true;
@@ -62,6 +66,8 @@ abstract class _HomePageMobx with Store {
     );
 
     transactionList.add(transaction);
+    await localStorage.saveFile(transaction);
+
     hasData = transactionList.isNotEmpty;
 
     dateTransaction = DateTime.now();
