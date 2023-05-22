@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app001/home/model/transaction_day_value.dart';
 import 'package:app001/home/model/transaction_model.dart';
 import 'package:app001/home/shared/local_files_read_and_write.dart';
@@ -66,8 +68,7 @@ abstract class _HomePageMobx with Store {
     );
 
     transactionList.add(transaction);
-    await localStorage.saveFile(transaction);
-
+    await localStorage.saveFileList(transactionList);
     hasData = transactionList.isNotEmpty;
 
     dateTransaction = DateTime.now();
