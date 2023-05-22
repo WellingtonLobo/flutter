@@ -94,6 +94,7 @@ abstract class _HomePageMobx with Store {
       }
     }
 
+    await localStorage.saveFileList(transactionList);
     if (transactionList.isEmpty) {
       hasData = false;
     }
@@ -106,6 +107,7 @@ abstract class _HomePageMobx with Store {
   Future<void> returnCard() async {
     isLoading = true;
     transactionList.insert(indexDeleteTransaction!, auxDeleteTransaction!);
+    await localStorage.saveFileList(transactionList);
     isLoading = false;
   }
 
